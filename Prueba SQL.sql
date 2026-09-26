@@ -1,22 +1,32 @@
 /* 2. Muestra los nombres de todas las películas con una clasificación por edades de ‘R’. */
 
-select f.title "Título" from film f where f.rating='R';
+select f.title "Título" 
+from film f 
+where f.rating='R';
 
 /* 3. Encuentra los nombres de los actores que tengan un “actor_id” entre 30 y 40. */
 
-select a.first_name || ' ' || a.last_name as "Nombre Actor"  from actor a where a.actor_id between 30 and 40;
+select a.first_name || ' ' || a.last_name as "Nombre Actor"  
+from actor a 
+where a.actor_id between 30 and 40;
 
 /* 4. Obtén las películas cuyo idioma coincide con el idioma original. */
 
-select f.title "Título" from film f where f.language_id = f.original_language_id;
+select f.title "Título" 
+from film f 
+where f.language_id = f.original_language_id;
 
 /* 5. Ordena las películas por duración de forma ascendente. */
 
-select f.title "Título", f.length "Duración"  from film f order by f.length 
+select f.title "Título", f.length "Duración"  
+from film f 
+order by f.length 
 
 /* 6. Encuentra el nombre y apellido de los actores que tengan ‘Allen’ en su apellido.  */
 
-select a.first_name "Nombre", a.last_name "Apelido"  from actor a  where a.last_name like '%ALLEN%'
+select a.first_name "Nombre", a.last_name "Apelido"  
+from actor a  
+where a.last_name like '%ALLEN%'
 
 /* 7. Encuentra la cantidad total de películas en cada clasificación de la tabla “film” y muestra la clasificación junto con el recuento.  */
 
@@ -26,15 +36,20 @@ group by rating
 
 /* 8. Encuentra el título de todas las películas que son ‘PG-13’ o tienen una duración mayor a 3 horas en la tabla film. */
 
-select f.title "Título"  from film f where f.rating = 'PG-13' and f.length > 180
+select f.title "Título"  
+from film f 
+where f.rating = 'PG-13' and f.length > 180
 
 /* 9. Encuentra la variabilidad de lo que costaría reemplazar las películas. */
 
-select variance(f.replacement_cost) "Varianza del coste de reemplazo de películas" from film f 
+select variance(f.replacement_cost) "Varianza del coste de reemplazo de películas" 
+from film f 
 
 /* 10. Encuentra la mayor y menor duración de una película de nuestra BBDD. */
 
-select max(f.length)||' min.'"Máximo de duración", min(f.length )||' min.' "Mínimo de duración" from film f 
+select 	max(f.length)||' min.'"Máximo de duración", 
+		min(f.length )||' min.' "Mínimo de duración" 
+from film f 
 
 /* 11. Encuentra lo que costó el antepenúltimo alquiler ordenado por día. */
 
@@ -46,76 +61,139 @@ offset 2;
 
 /* 12. Encuentra el título de las películas en la tabla “film” que no sean ni ‘NC-17’ ni ‘G’ en cuanto a su clasificación. */
 
-select F.title "Titulo" from film f where f.rating not in('NC-17', 'G')
+select F.title "Titulo" 
+from film f 
+where f.rating not in('NC-17', 'G')
 
 /* 13. Encuentra el promedio de duración de las películas para cada clasificación de la tabla film y muestra la clasificación junto con el promedio de duración. */
 
-select F.rating "Clasificación", AVG(f.length ) "Media de duración" from film f 
+select 	F.rating "Clasificación", 
+		AVG(f.length ) "Media de duración" 
+from film f 
 group by F.rating 
 
 /* 14. Encuentra el título de todas las películas que tengan una duración mayora 180 minutos. */
 
-select f.title "Titulo" from film f where f.length > 180
+select f.title "Titulo" 
+from film f 
+where f.length > 180
 
 /* 15. ¿Cuánto dinero ha generado en total la empresa? */
 
-select sum(p.amount) "Beneficios" from payment p 
+select sum(p.amount) "Beneficios" 
+from payment p 
 
 /* 16. Muestra los 10 clientes con mayor valor de id. */
 
-select c.customer_id "Id", c.first_name || ' ' || c.last_name "Nombre y Apellidos" from customer c order by c.customer_id desc limit 3
+select c.customer_id "Id", c.first_name || ' ' || c.last_name "Nombre y Apellidos" 
+from customer c 
+order by c.customer_id desc limit 3
 
 /* 17. Encuentra el nombre y apellido de los actores que aparecen en la película con título ‘Egg Igby’. */
 
 select a.first_name "Nombre", a.last_name "Apellido" 
 from film f 
-inner join film_actor fa on f.film_id =fa.film_id 
-inner join actor a  on fa.actor_id =a.actor_id 
+	inner join film_actor fa on f.film_id =fa.film_id 
+	inner join actor a  on fa.actor_id =a.actor_id 
 where f.title = 'EGG IGBY'
 
 /* 18. Selecciona todos los nombres de las películas únicos. */
 
 select Datos."Título" 
-from (select  f.title "Título", count(*)  "Cantidad"  from film f group by f.title ) as Datos
+from 
+	(select  f.title "Título", count(*)  "Cantidad"  from film f group by f.title ) as Datos
 where datos."Cantidad" = 1
 
 /* 19. Encuentra el título de las películas que son comedias y tienen una duración mayor a 180 minutos en la tabla “film”. */
 
 select f.title "Título"
 from film f 
-inner join film_category fc on f.film_id =fc.film_id 
-inner join category c on fc.category_id =c.category_id 
+	inner join film_category fc on f.film_id =fc.film_id 
+	inner join category c on fc.category_id =c.category_id 
 where c."name" = 'Comedy' and f.length > 180
 
 /* 20. Encuentra las categorías de películas que tienen un promedio de duración superior a 110 minutos y muestra el nombre de la categoría */
 /*		junto con el promedio de duración. */
 
-select c."name" "Categoría", AVG(f.length ) "Media de duración"
+select 	c."name" "Categoría", 
+		AVG(f.length ) "Media de duración"
 from film f 
-inner join film_category fc on f.film_id =fc.film_id 
-inner join category c on fc.category_id =c.category_id 
+	inner join film_category fc on f.film_id =fc.film_id 
+	inner join category c on fc.category_id =c.category_id 
 group by c."name" 
 having AVG(f.length ) > 110
 
 /* 21. ¿Cuál es la media de duración del alquiler de las películas? */
 
-select AVG(f.rental_duration) "Media Alquiler" from film f 
+select AVG(f.rental_duration) "Media Alquiler" 
+from film f 
 
 /* 22. Crea una columna con el nombre y apellidos de todos los actores y actrices. */
 
-select a.first_name "Nombre", a.last_name "Apellidos" from actor a 
+select a.first_name "Nombre", a.last_name "Apellidos" 
+from actor a 
 
-/* 3. Números de alquiler por día, ordenados por cantidad de alquiler de forma descendente. */
+/* 23. Números de alquiler por día, ordenados por cantidad de alquiler de forma descendente. */
 
-
+select 	cast(rental_date as date ) "Fecha", 
+		count(rental_id ) as "Cantidad Alquileres" 
+from rental 
+group by cast(rental_date as date ) 
+order by 2 desc
 
 /* 24. Encuentra las películas con una duración superior al promedio. */
+
+select f.title as "Titulo" 
+from film f 
+where f.length > (select avg(length) from film f ) 
+
 /* 25. Averigua el número de alquileres registrados por mes. */
+
+select 	date_part('month', r.rental_date ) "Mes Alquiler", 
+		count(rental_id ) as "Cantidad Alquileres" 
+from rental r 
+group by date_part('month', r.rental_date )
+order by 1
+
 /* 26. Encuentra el promedio, la desviación estándar y varianza del total pagado. */
+
+select 	avg(p.amount) "Media de Pagos",
+		stddev(p.amount) "Desviación STD de Pagos",
+		variance(p.amount) "Varianza de Pagos"
+from payment p 
+
 /* 27. ¿Qué películas se alquilan por encima del precio medio?  */
+
+select f.title as "Titulo" from film f 
+	inner join inventory i on i.film_id =f.film_id 
+	inner join rental r  on r.inventory_id = i.inventory_id 
+	inner join payment p on r.rental_id =p.rental_id 
+where p.amount > (select AVG(p.amount) from payment p)
+order by p.amount 
+
 /* 28. Muestra el id de los actores que hayan participado en más de 40 películas. */
+
+select datos."Id Actor"  
+from (
+		select 	fa.actor_id "Id Actor", 
+				count(fa.film_id ) "Cantidad Peliculas"
+		from film_actor fa 
+		group by fa.actor_id 
+		having count(fa.film_id) > 40
+	) Datos
+
 /* 29. Obtener todas las películas y, si están disponibles en el inventario, mostrar la cantidad disponible. */
+	
+	select f.title, r.return_date--, count(*)
+	from film f 
+		left join inventory i on i.film_id = f.film_id 
+		inner join rental r on r.inventory_id = i.inventory_id 
+	--group by f.f.title, r.return_date 
+	
 /* 30. Obtener los actores y el número de películas en las que ha actuado. */
+	
+	
+	
 /* 31. Obtener todas las películas y mostrar los actores que han actuado en ellas, incluso si algunas películas no tienen actores asociados. */
 /* 32. Obtener todos los actores y mostrar las películas en las que han actuado, incluso si algunos actores no han actuado en ninguna película. */
 /* 33. Obtener todas las películas que tenemos y todos los registros de alquiler. */
