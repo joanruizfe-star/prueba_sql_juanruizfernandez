@@ -184,19 +184,38 @@ from (
 
 /* 29. Obtener todas las películas y, si están disponibles en el inventario, mostrar la cantidad disponible. */
 	
-	select f.title, r.return_date--, count(*)
-	from film f 
-		left join inventory i on i.film_id = f.film_id 
-		inner join rental r on r.inventory_id = i.inventory_id 
-	--group by f.f.title, r.return_date 
+select f.title "Titulo"
+from film f 
+	left join inventory i on i.film_id = f.film_id 
+	inner join rental r on r.inventory_id = i.inventory_id 
+where r.return_date is not null
+	
 	
 /* 30. Obtener los actores y el número de películas en las que ha actuado. */
 	
-	
-	
+select a.first_name "Nombre", a.last_name "Apellidos", count(*)
+from actor a
+	inner join film_actor fa on a.actor_id = fa.actor_id 
+group by a.first_name, a.last_name
+
 /* 31. Obtener todas las películas y mostrar los actores que han actuado en ellas, incluso si algunas películas no tienen actores asociados. */
+
+select F.title "Titulo", A.first_name "Nombre", A.last_name "Apellidos"
+from film f 
+	left join film_actor fa on F.film_id = FA.film_id 
+	LEFT join actor a on FA.actor_id = A.actor_id 
+
 /* 32. Obtener todos los actores y mostrar las películas en las que han actuado, incluso si algunos actores no han actuado en ninguna película. */
+	
+select a.first_name "Nombre", a.last_name "Apellidos", f.title "Titulo"
+from actor a 
+	left join film_actor fa on a.actor_id = fa.actor_id 
+	left join film f on fa.film_id = f.film_id 
+		
 /* 33. Obtener todas las películas que tenemos y todos los registros de alquiler. */
+	
+	
+	
 /* 34. Encuentra los 5 clientes que más dinero se hayan gastado con nosotros. */
 /* 35. Selecciona todos los actores cuyo primer nombre es 'Johnny'. */
 /* 36. Renombra la columna “first_name” como Nombre y “last_name” como Apellido. */
