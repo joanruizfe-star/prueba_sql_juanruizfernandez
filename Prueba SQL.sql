@@ -20,36 +20,36 @@ where f.language_id = f.original_language_id;
 
 select f.title "Título", f.length "Duración"  
 from film f 
-order by f.length 
+order by f.length; 
 
 /* 6. Encuentra el nombre y apellido de los actores que tengan ‘Allen’ en su apellido.  */
 
 select a.first_name "Nombre", a.last_name "Apelido"  
 from actor a  
-where a.last_name like '%ALLEN%'
+where a.last_name like '%ALLEN%';
 
 /* 7. Encuentra la cantidad total de películas en cada clasificación de la tabla “film” y muestra la clasificación junto con el recuento.  */
 
 select rating "Clasificación", count(*) "Cantidad"
 from film f 
-group by rating
+group by rating;
 
 /* 8. Encuentra el título de todas las películas que son ‘PG-13’ o tienen una duración mayor a 3 horas en la tabla film. */
 
 select f.title "Título"  
 from film f 
-where f.rating = 'PG-13' and f.length > 180
+where f.rating = 'PG-13' and f.length > 180;
 
 /* 9. Encuentra la variabilidad de lo que costaría reemplazar las películas. */
 
 select variance(f.replacement_cost) "Varianza del coste de reemplazo de películas" 
-from film f 
+from film f; 
 
 /* 10. Encuentra la mayor y menor duración de una película de nuestra BBDD. */
 
 select 	max(f.length)||' min.'"Máximo de duración", 
 		min(f.length )||' min.' "Mínimo de duración" 
-from film f 
+from film f; 
 
 /* 11. Encuentra lo que costó el antepenúltimo alquiler ordenado por día. */
 
@@ -63,31 +63,31 @@ offset 2;
 
 select F.title "Titulo" 
 from film f 
-where f.rating not in('NC-17', 'G')
+where f.rating not in('NC-17', 'G');
 
 /* 13. Encuentra el promedio de duración de las películas para cada clasificación de la tabla film y muestra la clasificación junto con el promedio de duración. */
 
 select 	F.rating "Clasificación", 
 		AVG(f.length ) "Media de duración" 
 from film f 
-group by F.rating 
+group by F.rating; 
 
 /* 14. Encuentra el título de todas las películas que tengan una duración mayora 180 minutos. */
 
 select f.title "Titulo" 
 from film f 
-where f.length > 180
+where f.length > 180;
 
 /* 15. ¿Cuánto dinero ha generado en total la empresa? */
 
 select sum(p.amount) "Beneficios" 
-from payment p 
+from payment p; 
 
 /* 16. Muestra los 10 clientes con mayor valor de id. */
 
 select c.customer_id "Id", c.first_name || ' ' || c.last_name "Nombre y Apellidos" 
 from customer c 
-order by c.customer_id desc limit 3
+order by c.customer_id desc limit 3;
 
 /* 17. Encuentra el nombre y apellido de los actores que aparecen en la película con título ‘Egg Igby’. */
 
@@ -95,14 +95,14 @@ select a.first_name "Nombre", a.last_name "Apellido"
 from film f 
 	inner join film_actor fa on f.film_id =fa.film_id 
 	inner join actor a  on fa.actor_id =a.actor_id 
-where f.title = 'EGG IGBY'
+where f.title = 'EGG IGBY';
 
 /* 18. Selecciona todos los nombres de las películas únicos. */
 
 select Datos."Título" 
 from 
 	(select  f.title "Título", count(*)  "Cantidad"  from film f group by f.title ) as Datos
-where datos."Cantidad" = 1
+where datos."Cantidad" = 1;
 
 /* 19. Encuentra el título de las películas que son comedias y tienen una duración mayor a 180 minutos en la tabla “film”. */
 
@@ -110,7 +110,7 @@ select f.title "Título"
 from film f 
 	inner join film_category fc on f.film_id =fc.film_id 
 	inner join category c on fc.category_id =c.category_id 
-where c."name" = 'Comedy' and f.length > 180
+where c."name" = 'Comedy' and f.length > 180;
 
 /* 20. Encuentra las categorías de películas que tienen un promedio de duración superior a 110 minutos y muestra el nombre de la categoría */
 /*		junto con el promedio de duración. */
@@ -121,17 +121,17 @@ from film f
 	inner join film_category fc on f.film_id =fc.film_id 
 	inner join category c on fc.category_id =c.category_id 
 group by c."name" 
-having AVG(f.length ) > 110
+having AVG(f.length ) > 110;
 
 /* 21. ¿Cuál es la media de duración del alquiler de las películas? */
 
 select AVG(f.rental_duration) "Media Alquiler" 
-from film f 
+from film f; 
 
 /* 22. Crea una columna con el nombre y apellidos de todos los actores y actrices. */
 
 select a.first_name "Nombre", a.last_name "Apellidos" 
-from actor a 
+from actor a; 
 
 /* 23. Números de alquiler por día, ordenados por cantidad de alquiler de forma descendente. */
 
@@ -139,13 +139,13 @@ select 	cast(rental_date as date ) "Fecha",
 		count(rental_id ) as "Cantidad Alquileres" 
 from rental 
 group by cast(rental_date as date ) 
-order by 2 desc
+order by 2 desc;
 
 /* 24. Encuentra las películas con una duración superior al promedio. */
 
 select f.title as "Titulo" 
 from film f 
-where f.length > (select avg(length) from film f ) 
+where f.length > (select avg(length) from film f ); 
 
 /* 25. Averigua el número de alquileres registrados por mes. */
 
@@ -153,14 +153,14 @@ select 	date_part('month', r.rental_date ) "Mes Alquiler",
 		count(rental_id ) as "Cantidad Alquileres" 
 from rental r 
 group by date_part('month', r.rental_date )
-order by 1
+order by 1;
 
 /* 26. Encuentra el promedio, la desviación estándar y varianza del total pagado. */
 
 select 	avg(p.amount) "Media de Pagos",
 		stddev(p.amount) "Desviación STD de Pagos",
 		variance(p.amount) "Varianza de Pagos"
-from payment p 
+from payment p; 
 
 /* 27. ¿Qué películas se alquilan por encima del precio medio?  */
 
@@ -169,7 +169,7 @@ select f.title as "Titulo" from film f
 	inner join rental r  on r.inventory_id = i.inventory_id 
 	inner join payment p on r.rental_id =p.rental_id 
 where p.amount > (select AVG(p.amount) from payment p)
-order by p.amount 
+order by p.amount;
 
 /* 28. Muestra el id de los actores que hayan participado en más de 40 películas. */
 
@@ -180,7 +180,7 @@ from (
 		from film_actor fa 
 		group by fa.actor_id 
 		having count(fa.film_id) > 40
-	) Datos
+	) Datos;
 
 /* 29. Obtener todas las películas y, si están disponibles en el inventario, mostrar la cantidad disponible. */
 	
@@ -188,7 +188,7 @@ select f.title "Titulo"
 from film f 
 	left join inventory i on i.film_id = f.film_id 
 	inner join rental r on r.inventory_id = i.inventory_id 
-where r.return_date is not null
+where r.return_date is not null;
 	
 	
 /* 30. Obtener los actores y el número de películas en las que ha actuado. */
@@ -197,7 +197,7 @@ select 	a.first_name "Nombre",
 		a.last_name "Apellidos", count(*)
 from actor a
 	inner join film_actor fa on a.actor_id = fa.actor_id 
-group by a.first_name, a.last_name
+group by a.first_name, a.last_name;
 
 /* 31. Obtener todas las películas y mostrar los actores que han actuado en ellas, incluso si algunas películas no tienen actores asociados. */
 
@@ -206,7 +206,7 @@ select 	F.title "Titulo",
 		A.last_name "Apellidos"
 from film f 
 	left join film_actor fa on F.film_id = FA.film_id 
-	LEFT join actor a on FA.actor_id = A.actor_id 
+	LEFT join actor a on FA.actor_id = A.actor_id; 
 
 /* 32. Obtener todos los actores y mostrar las películas en las que han actuado, incluso si algunos actores no han actuado en ninguna película. */
 	
@@ -214,7 +214,7 @@ select 	a.first_name "Nombre",
 		a.last_name "Apellidos", f.title "Titulo"
 from actor a 
 	left join film_actor fa on a.actor_id = fa.actor_id 
-	left join film f on fa.film_id = f.film_id 
+	left join film f on fa.film_id = f.film_id; 
 		
 /* 33. Obtener todas las películas que tenemos y todos los registros de alquiler. */
 	
@@ -224,7 +224,7 @@ select 	f.title "Titulo",
 from film f 
 	inner join inventory i on f.film_id = i.film_id 
 	inner join rental r on i.inventory_id = r.inventory_id 
-order by 1
+order by 1;
 	
 /* 34. Encuentra los 5 clientes que más dinero se hayan gastado con nosotros. */
 
@@ -235,45 +235,45 @@ from payment p
 	inner join customer c on p.customer_id = c.customer_id 
 group by c.first_name, c.last_name
 order by 3 desc
-limit 5
+limit 5;
 
 /* 35. Selecciona todos los actores cuyo primer nombre es 'Johnny'. */
 
 select 	A.first_name "Nombre", 
 		a.last_name "Apellidos" 
 from actor a 
-where a.first_name = 'JOHNNY'
+where a.first_name = 'JOHNNY';
 
 /* 36. Renombra la columna “first_name” como Nombre y “last_name” como Apellido. */
 
 select 	A.first_name "Nombre", 
 		a.last_name "Apellidos" 
 from actor a 
-where a.first_name = 'JOHNNY'
+where a.first_name = 'JOHNNY';
 
 /* 37. Encuentra el ID del actor más bajo y más alto en la tabla actor. */
 
 select 	Min(a.actor_id) "Id Mínimo", 
 		Max(a.actor_id ) "Id Máximo"
-from actor a 
+from actor a;
 
 /* 38. Cuenta cuántos actores hay en la tabla “actor”. */
 
 select count(*) "Cantidad Actores"
-from actor a 
+from actor a;
 
 /* 39. Selecciona todos los actores y ordénalos por apellido en orden ascendente. */
 
 select *
 from actor a 
-order by a.last_name 
+order by a.last_name; 
 
 
 /* 40. Selecciona las primeras 5 películas de la tabla “film”. */
 
 select f.title "Titulo" 
 from film f 
-limit 5
+limit 5;
 
 /* 41. Agrupa los actores por su nombre y cuenta cuántos actores tienen el mismo nombre. ¿Cuál es el nombre más repetido? */
 
@@ -283,7 +283,7 @@ select
 from actor a 
 group by a.first_name 
 order by 2 desc 
-limit 1
+limit 1;
 
 /* 42. Encuentra todos los alquileres y los nombres de los clientes que los realizaron. */
 
@@ -292,7 +292,7 @@ select 	r.rental_id "Id Alquiler",
 		c.first_name "Nombre",
 		c.last_name "Apellidos"
 from rental r 
-	inner join customer c on r.customer_id = c.customer_id 
+	inner join customer c on r.customer_id = c.customer_id; 
 	
 /* 43. Muestra todos los clientes y sus alquileres si existen, incluyendo aquellos que no tienen alquileres. */
 	
@@ -301,13 +301,13 @@ select 	c.first_name "Nombre",
 		r.rental_id "Id Alquiler",
 		r.rental_date "Fecha Alquiler"
 from customer c 
-	left join rental r on r.customer_id = c.customer_id 
+	left join rental r on r.customer_id = c.customer_id;
 		
 /* 44. Realiza un CROSS JOIN entre las tablas film y category. ¿Aporta valor esta consulta? ¿Por qué? Deja después de la consulta la contestación. */
 	
 select *
 from film f 
-	cross join category c 
+	cross join category c; 
 	
 /* 45. Encuentra los actores que han participado en películas de la categoría 'Action'. */
 	
@@ -316,7 +316,7 @@ from actor a
 	inner join film_actor fa on a.actor_id = fa.actor_id 
 	inner join film_category fc on fa.film_id = fc.film_id 
 	inner join category c on fc.category_id = c.category_id 
-where c."name" = 'Action'
+where c."name" = 'Action';
 	
 /* 46. Encuentra todos los actores que no han participado en películas. */
 
@@ -325,7 +325,7 @@ select 	A.first_name "Nombre",
 from actor a 
 	inner join film_actor fa on a.actor_id = fa.actor_id 
 group by A.first_name , 
-		a.last_name  
+		a.last_name;  
 
 /* 47. Selecciona el nombre de los actores y la cantidad de películas en las que han participado. */
 		
@@ -335,7 +335,7 @@ select 	A.first_name "Nombre",
 from actor a 
 	inner join film_actor fa on a.actor_id = fa.actor_id 
 group by A.first_name , 
-		a.last_name  
+		a.last_name;  
 
 /* 48. Crea una vista llamada “actor_num_peliculas” que muestre los nombres de los actores y el número de películas en las que han participado. */
 
@@ -346,7 +346,7 @@ create view "actor_num_peliculas" as
 	from actor a 
 		inner join film_actor fa on a.actor_id = fa.actor_id 
 	group by A.first_name , 
-			a.last_name  
+			a.last_name;  
 
 /* 49. Calcula el número total de alquileres realizados por cada cliente. */
 		
@@ -356,7 +356,7 @@ select  c.first_name "Nombre",
 from rental r 
 	inner join customer c on r.customer_id = c.customer_id 
 group by 	c.first_name ,
-			c.last_name 
+			c.last_name; 
 		
 /* 50. Calcula la duración total de las películas en la categoría 'Action'. */
 			
@@ -364,7 +364,7 @@ select sum(f.length) "Duración"
 from film f 
 	inner join film_category fc on f.film_id = fc.film_id 
 	inner join category c on fc.category_id = c.category_id 
-where c."name" = 'Action'
+where c."name" = 'Action';
 			
 /* 51. Crea una tabla temporal llamada “cliente_rentas_temporal” para almacenar el total de alquileres por cliente. */
 
@@ -380,7 +380,7 @@ WITH cliente_rentas_temporal AS
 )
 
 SELECT *
-FROM cliente_rentas_temporal
+FROM cliente_rentas_temporal;
 
 /* 52. Crea una tabla temporal llamada “peliculas_alquiladas” que almacene las películas que han sido alquiladas al menos 10 veces. */
 
@@ -396,7 +396,7 @@ WITH peliculas_alquiladas AS
 
 SELECT *
 FROM "peliculas_alquiladas"
-where "Cantidad">= 10
+where "Cantidad">= 10;
 
 /* 53. Encuentra el título de las películas que han sido alquiladas por el cliente con el nombre ‘Tammy Sanders’ y que aún no se han devuelto. Ordena */
 /*		los resultados alfabéticamente por título de película. */
@@ -408,7 +408,7 @@ from film f
 	inner join customer c on r.customer_id = c.customer_id 
 where 	c.first_name ='TAMMY' 
 		and C.last_name = 'SANDERS'
-		and R.return_date isNULL
+		and R.return_date isnull;
 	
 /* 54. Encuentra los nombres de los actores que han actuado en al menos unapelícula que pertenece a la categoría ‘Sci-Fi’. Ordena los resultados */
 /* 		alfabéticamente por apellido. */
@@ -420,7 +420,7 @@ from actor a
 	inner join film_category fc on fa.film_id = fc.film_id 
 	inner join category c on fc.category_id = c.category_id 
 where c."name" = 'Sci-Fi'
-order by a.last_name 
+order by a.last_name;
 
 /* 55. Encuentra el nombre y apellido de los actores que han actuado en películas que se alquilaron después de que la película ‘Spartacus */
 /*		Cheaper’ se alquilara por primera vez. Ordena los resultados alfabéticamente por apellido. */
@@ -445,7 +445,7 @@ from film f
 	inner join film_actor fa on f.film_id =fa.film_id 
 	inner join actor a on fa.actor_id = a.actor_id 
 where r.rental_date >= (select "Fecha Inicio" from "Fecha_Inicio")
-order by a.last_name 
+order by a.last_name;
 
 
 /* 56. Encuentra el nombre y apellido de los actores que no han actuado en ninguna película de la categoría ‘Music’. */
@@ -460,19 +460,98 @@ where a.actor_id not in(
 							inner join film_category fc on fa.film_id = fc.film_id 
 							inner join category c on fc.category_id = c.category_id 
 						where c."name" = 'Music'
-						)
+						);
 
 /* 57. Encuentra el título de todas las películas que fueron alquiladas por más de 8 días. */
 						
-
+select distinct f.title "Titulo" 
+from rental r 
+	inner join inventory i on r.inventory_id = r.inventory_id 
+	inner join film f on i.film_id = f.film_id 
+where (r.return_date :: date - r.rental_date :: date) > 8;
 						
 /* 58. Encuentra el título de todas las películas que son de la misma categoría que ‘Animation’. */
+
+select f.title "Titulo" 
+from film f 
+	inner join film_category fc on f.film_id = fc.film_id 
+	inner join category c on fc.category_id = c.category_id 
+where c."name"  = 'Animation';
+
 /* 59. Encuentra los nombres de las películas que tienen la misma duración que la película con el título ‘Dancing Fever’. Ordena los resultados */
 /*		alfabéticamente por título de película. */
+
+select f.title "Titulo"
+from film f 
+where f.length = (	select f.length  
+					from film f 
+					where f.title = upper('Dancing Fever')
+				 )
+order by f.title;
+
 /* 60. Encuentra los nombres de los clientes que han alquilado al menos 7 películas distintas. Ordena los resultados alfabéticamente por apellido. */
+
+WITH "Pelicula_Cliente" AS
+(
+    SELECT
+        f.title AS "Titulo",
+        r.customer_id AS "Cliente"
+    FROM rental r
+        INNER JOIN inventory i
+            ON r.inventory_id = i.inventory_id
+        INNER JOIN film f
+            ON i.film_id = f.film_id
+    GROUP BY
+        i.inventory_id,
+        f.title,
+        r.customer_id
+),
+"Peliculas_Distintas_por_Cliente" AS
+(
+    SELECT
+        "Cliente",
+        COUNT(*) AS "Cantidad"
+    FROM "Pelicula_Cliente"
+    GROUP BY "Cliente"
+)
+SELECT
+    c.first_name AS "Nombre",
+    c.last_name AS "Apellidos"
+FROM customer c
+    INNER JOIN "Peliculas_Distintas_por_Cliente" pdc
+        ON c.customer_id = pdc."Cliente"
+WHERE pdc."Cantidad" > 7
+order by "Apellidos" ;
+
 /* 61. Encuentra la cantidad total de películas alquiladas por categoría y muestra el nombre de la categoría junto con el recuento de alquileres. */
+
+select C."name" "Categoria", count(distinct r.rental_id ) Cantidad
+from rental r 
+	inner join inventory i on R.inventory_id = I.inventory_id 
+	inner join film_category fc on I.film_id =FC.film_id 
+	inner join category c on FC.category_id =C.category_id 
+group by c."name";
+
 /* 62. Encuentra el número de películas por categoría estrenadas en 2006. */
+
+select f.title "Titulo" 
+from film f 
+	inner join film_category fc on f.film_id = fc.film_id 
+	inner join category c on fc.category_id = c.category_id 
+where f.release_year = 2006;
+
 /* 63. Obtén todas las combinaciones posibles de trabajadores con las tiendas que tenemos. */
+
+select * 
+from store s 
+	cross join staff s2; 
+
 /* 64. Encuentra la cantidad total de películas alquiladas por cada cliente y muestra el ID del cliente, su nombre y apellido junto con la cantidad de */
 /*		películas alquiladas. */
+
+select c.customer_id "Id Cliente", c.first_name "Nombre", c.last_name "Apellido", count(r.rental_id) "Cantidad"
+from rental r 
+inner join customer c on r.customer_id = c.customer_id 
+group by c.customer_id, c.first_name, c.last_name;
+
 
