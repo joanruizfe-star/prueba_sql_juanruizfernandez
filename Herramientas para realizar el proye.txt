@@ -1,5 +1,0 @@
-Herramientas para realizar el proyecto
-
-● PostgreSQL.
-
-● DBeaver.
